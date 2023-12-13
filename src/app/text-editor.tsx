@@ -2,12 +2,17 @@
 
 import { useEffect, useState } from "react";
 import { ListItemNode, ListNode } from "@lexical/list";
+import { HeadingNode, QuoteNode } from "@lexical/rich-text";
+import { TableCellNode, TableNode, TableRowNode } from "@lexical/table";
+import { CodeHighlightNode, CodeNode } from "@lexical/code";
+import { AutoLinkNode, LinkNode } from "@lexical/link";
+
 import { RichTextPlugin } from "@lexical/react/LexicalRichTextPlugin";
 import { LexicalComposer } from "@lexical/react/LexicalComposer";
 import { ContentEditable } from "@lexical/react/LexicalContentEditable";
 import LexicalErrorBoundary from "@lexical/react/LexicalErrorBoundary";
 import ExampleTheme from "@/app/themes/ExampleTheme";
-// import { textDailyStandup } from "./text-daily-standup";
+import ToolbarPlugin from "@/app/plugins/ToolbarPlugin";
 
 function Placeholder() {
     return <div className="editor-placeholder">Enter some rich text...</div>;
@@ -21,10 +26,17 @@ const editorConfig = {
     },
     // Any custom nodes go here
     nodes: [
-     
+        HeadingNode,
         ListNode,
         ListItemNode,
-       
+        QuoteNode,
+        CodeNode,
+        CodeHighlightNode,
+        TableNode,
+        TableCellNode,
+        TableRowNode,
+        AutoLinkNode,
+        LinkNode
     ],
 };
 
@@ -41,6 +53,7 @@ export function Editor(): JSX.Element | null {
     return (
         <LexicalComposer initialConfig={editorConfig}>
             <div className="editor-container">
+            <ToolbarPlugin />
                 <div className="editor-inner">
                     <RichTextPlugin
                         contentEditable={<ContentEditable className="editor-input" />}
