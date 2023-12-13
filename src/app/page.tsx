@@ -12,8 +12,7 @@ export default function Home() {
   };
   return (
     <div className="App">
-     
-
+{/* <textarea className='mt-10 p-10'  cols={58} rows={2}></textarea> */}
     <Editor />
   </div>
   )
