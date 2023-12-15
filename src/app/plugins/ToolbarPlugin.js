@@ -378,37 +378,37 @@ function BlockOptionsDropdownList({
 
   return (
     <div className="dropdown" ref={dropDownRef}>
-      <button className="item" >
+      <button className="item" onClick={formatParagraph}>
         <span className="icon paragraph" />
         <span className="text">Normal</span>
         {blockType === "paragraph" && <span className="active" />}
       </button>
-      <button className="item" >
+      <button className="item" onClick={formatLargeHeading}>
         <span className="icon large-heading" />
         <span className="text">Large Heading</span>
         {blockType === "h1" && <span className="active" />}
       </button>
-      <button className="item" >
+      <button className="item" onClick={formatSmallHeading}>
         <span className="icon small-heading" />
         <span className="text">Small Heading</span>
         {blockType === "h2" && <span className="active" />}
       </button>
-      <button className="item" >
+      <button className="item" onClick={formatBulletList}>
         <span className="icon bullet-list" />
         <span className="text">Bullet List</span>
         {blockType === "ul" && <span className="active" />}
       </button>
-      <button className="item" >
+      <button className="item" onClick={formatNumberedList}>
         <span className="icon numbered-list" />
         <span className="text">Numbered List</span>
         {blockType === "ol" && <span className="active" />}
       </button>
-      <button className="item" >
+      <button className="item" onClick={formatQuote}>
         <span className="icon quote" />
         <span className="text">Quote</span>
         {blockType === "quote" && <span className="active" />}
       </button>
-      <button className="item" >
+      <button className="item" onClick={formatCode}>
         <span className="icon code" />
         <span className="text">Code Block</span>
         {blockType === "code" && <span className="active" />}
@@ -609,21 +609,27 @@ export default function ToolbarPlugin() {
             <i className="format bold" />
           </button>
           <button
-      
+            onClick={() => {
+              editor.dispatchCommand(FORMAT_TEXT_COMMAND, "italic");
+            }}
             className={"toolbar-item spaced " + (isItalic ? "active" : "")}
             aria-label="Format Italics"
           >
             <i className="format italic" />
           </button>
           <button
-          
+            onClick={() => {
+              editor.dispatchCommand(FORMAT_TEXT_COMMAND, "underline");
+            }}
             className={"toolbar-item spaced " + (isUnderline ? "active" : "")}
             aria-label="Format Underline"
           >
             <i className="format underline" />
           </button>
           <button
-        
+            onClick={() => {
+              editor.dispatchCommand(FORMAT_TEXT_COMMAND, "strikethrough");
+            }}
             className={
               "toolbar-item spaced " + (isStrikethrough ? "active" : "")
             }
@@ -632,7 +638,9 @@ export default function ToolbarPlugin() {
             <i className="format strikethrough" />
           </button>
           <button
-        
+            onClick={() => {
+              editor.dispatchCommand(FORMAT_TEXT_COMMAND, "code");
+            }}
             className={"toolbar-item spaced " + (isCode ? "active" : "")}
             aria-label="Insert Code"
           >
@@ -649,28 +657,36 @@ export default function ToolbarPlugin() {
             createPortal(<FloatingLinkEditor editor={editor} />, document.body)}
           <Divider />
           <button
-       
+            onClick={() => {
+              editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, "left");
+            }}
             className="toolbar-item spaced"
             aria-label="Left Align"
           >
             <i className="format left-align" />
           </button>
           <button
-        
+            onClick={() => {
+              editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, "center");
+            }}
             className="toolbar-item spaced"
             aria-label="Center Align"
           >
             <i className="format center-align" />
           </button>
           <button
-      
+            onClick={() => {
+              editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, "right");
+            }}
             className="toolbar-item spaced"
             aria-label="Right Align"
           >
             <i className="format right-align" />
           </button>
           <button
-
+            onClick={() => {
+              editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, "justify");
+            }}
             className="toolbar-item"
             aria-label="Justify Align"
           >

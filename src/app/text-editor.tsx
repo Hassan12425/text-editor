@@ -1,19 +1,33 @@
 'use client';
 
-import { useEffect, useState } from "react";
-import { ListItemNode, ListNode } from "@lexical/list";
+import { useEffect, useRef, useState } from "react";
+
 import { HeadingNode, QuoteNode } from "@lexical/rich-text";
 import { TableCellNode, TableNode, TableRowNode } from "@lexical/table";
+import { ListItemNode, ListNode } from "@lexical/list";
 import { CodeHighlightNode, CodeNode } from "@lexical/code";
 import { AutoLinkNode, LinkNode } from "@lexical/link";
+import { TRANSFORMERS } from "@lexical/markdown";
+
+import TreeViewPlugin from "@/app/plugins/TreeViewPlugin";
+import ToolbarPlugin from "@/app/plugins/ToolbarPlugin";
+import AutoLinkPlugin from "@/app/plugins/AutoLinkPlugin";
+import CodeHighlightPlugin from "@/app/plugins/CodeHighlightPlugin";
+
 
 import { RichTextPlugin } from "@lexical/react/LexicalRichTextPlugin";
+import { HistoryPlugin } from "@lexical/react/LexicalHistoryPlugin";
+import { AutoFocusPlugin } from "@lexical/react/LexicalAutoFocusPlugin";
+import { LinkPlugin } from "@lexical/react/LexicalLinkPlugin";
+import { ListPlugin } from "@lexical/react/LexicalListPlugin";
+import { MarkdownShortcutPlugin } from "@lexical/react/LexicalMarkdownShortcutPlugin";
+import { TabIndentationPlugin } from "@lexical/react/LexicalTabIndentationPlugin";
+
+
 import { LexicalComposer } from "@lexical/react/LexicalComposer";
 import { ContentEditable } from "@lexical/react/LexicalContentEditable";
 import LexicalErrorBoundary from "@lexical/react/LexicalErrorBoundary";
 import ExampleTheme from "@/app/themes/ExampleTheme";
-import ToolbarPlugin from "@/app/plugins/ToolbarPlugin";
-
 function Placeholder() {
     return <div className="editor-placeholder">Enter some rich text...</div>;
 }
@@ -40,26 +54,50 @@ const editorConfig = {
     ],
 };
 
-export function Editor(): JSX.Element | null {
 
-    const [isMounted, setIsMounted] = useState(false)
+export function Editor(): JSX.Element | null {
+    const [isToolbarVisible, setIsToolbarVisible] = useState(false);
+    const contentEditableRef = useRef<HTMLDivElement | null>(null);
+
+    const handleInputClick = () => {
+        setIsToolbarVisible(true);
+    };
 
     useEffect(() => {
-        setIsMounted(true);
-    }, [])
+        const handleDocumentClick = (event: MouseEvent) => {
+            if (contentEditableRef.current && !contentEditableRef.current.contains(event.target as Node)) {
+                setIsToolbarVisible(false);
+            }
+        };
 
-    if (!isMounted) return null
+        document.addEventListener("click", handleDocumentClick);
+
+        return () => {
+            document.removeEventListener("click", handleDocumentClick);
+        };
+    }, []);
 
     return (
         <LexicalComposer initialConfig={editorConfig}>
-            <div className="editor-container">
-            <ToolbarPlugin />
+            <div className="editor-container" ref={contentEditableRef}>
+            {/* {isToolbarVisible && <ToolbarPlugin />} */}
+          <ToolbarPlugin />
+
                 <div className="editor-inner">
                     <RichTextPlugin
-                        contentEditable={<ContentEditable className="editor-input" />}
+                        contentEditable={<ContentEditable className="editor-input" onClick={handleInputClick}/>}
                         placeholder={<Placeholder />}
                         ErrorBoundary={LexicalErrorBoundary}
                     />
+                  <ListPlugin />
+                    <HistoryPlugin />
+                    <AutoFocusPlugin />
+                    <CodeHighlightPlugin />
+                    <LinkPlugin />
+                    <TabIndentationPlugin />
+                    <AutoLinkPlugin />
+                    <MarkdownShortcutPlugin transformers={TRANSFORMERS} />
+                    {/* <TreeViewPlugin /> */}
                
                 </div>
             </div>
