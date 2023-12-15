@@ -34,7 +34,6 @@ function Placeholder() {
 const editorConfig = {
     theme: ExampleTheme,
     namespace: "daily-standup-editor",
-    // editorState: textDailyStandup,
     onError(error: unknown) {
         throw error;
     },
@@ -97,7 +96,7 @@ export function Editor(): JSX.Element | null {
                     <TabIndentationPlugin />
                     <AutoLinkPlugin />
                     <MarkdownShortcutPlugin transformers={TRANSFORMERS} />
-                    {/* <TreeViewPlugin /> */}
+                 
                
                 </div>
             </div>
