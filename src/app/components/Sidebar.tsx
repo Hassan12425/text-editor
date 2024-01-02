@@ -1,37 +1,86 @@
-import React from 'react';
+import React, { CSSProperties, useEffect, useRef, useState } from 'react';
 import FontSizeChanger from './FontSizeChanger';
+import SelectColor from './SelectColor';
+import SiderHeader from './SiderHeader';
+import SideFooterContent from './SideFooterContent';
 
 interface SidebarProps {
   inputText: string;
   setInputText: React.Dispatch<React.SetStateAction<string>>;
   fontSize: number;
   onFontSizeChange: (newSize: number) => void;
+  onColorChange: (colorType: string, color: string) => void;
+  isOpen: boolean;
+  closeSidebar: () => void;
+  handleTextAlignmentChange: (alignment: CSSProperties['textAlign']) => void;
 }
 
-const Sidebar: React.FC<SidebarProps> = ({ inputText, setInputText, fontSize, onFontSizeChange }) => {
+const Sidebar: React.FC<SidebarProps> = ({
+  inputText,
+  setInputText,
+  fontSize,
+  onFontSizeChange,
+  onColorChange,
+  isOpen,
+  closeSidebar,
+  handleTextAlignmentChange, 
+}) => {
+  const sidebarRef = useRef<HTMLDivElement>(null);
+  const [name, setName] = useState<string>('Hassan khan');
+  const [address, setAddress] = useState<string>('Abbottabad');
+  const [number, setNumber] = useState<string>('03484827891');
+  const [email, setEmail] = useState<string>('Hassankhan12425@gmail.com');
+ 
+
   const handleSidebarInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setInputText(event.target.value);
+  };
+  const handleSidebarnameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setName(event.target.value);
   };
 
   const handleFontSizeChange = (newSize: number) => {
     onFontSizeChange(newSize);
   };
 
+  const handleColorChange = (colorType: string, color: string) => {
+    onColorChange(colorType, color);
+  };
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (sidebarRef.current && !sidebarRef.current.contains(event.target as Node)) {
+        closeSidebar(); 
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [closeSidebar]);
+  const [footerName, setFooterName] = useState<string>('Hassan khan');
+  const handleFooterNameChange = (newName: string) => {
+    setFooterName(newName);
+  };
   return (
-    <div className="h-screen w-1/6 bg-gray-200 fixed top-0 right-0 flex flex-col">
-      <div className='mt-2 font-semibold '>Header</div>
-      <div className="pt-6 pl-4 ">
-        <h2 className="mb-2 float-left font-semibold">Store Branding</h2>
-        <input
-          type="text"
-          value={inputText}
-          onChange={handleSidebarInputChange}
-          className="w-100% p-1 float-left border-2 border-gray-300 "
-        />
-      </div>
-      <div className="mt-10 mb-6 pl-4">
-        <FontSizeChanger fontSize={fontSize} onFontSizeChange={handleFontSizeChange} />
-      </div>
+    <div
+      ref={sidebarRef}
+      className={`h-screen w-1/6 fixed top-0 right-0 bg-gray-200 transform z-50 ${
+        isOpen ? 'translate-x-0' : 'translate-x-full'
+      } transition-transform duration-300 ease-in-out shadow-lg`}
+    >
+   <SiderHeader
+        inputText={inputText}
+        fontSize={fontSize}
+        handleSidebarInputChange={handleSidebarInputChange}
+        handleFontSizeChange={handleFontSizeChange}
+        handleColorChange={handleColorChange}
+        handleTextAlignmentChange={handleTextAlignmentChange} 
+      />
+   
+     
     </div>
   );
 };

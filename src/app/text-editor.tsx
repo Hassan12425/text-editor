@@ -28,6 +28,7 @@ import { LexicalComposer } from "@lexical/react/LexicalComposer";
 import { ContentEditable } from "@lexical/react/LexicalContentEditable";
 import LexicalErrorBoundary from "@lexical/react/LexicalErrorBoundary";
 import ExampleTheme from "@/app/themes/ExampleTheme";
+import EditorSidebar from "./components/EditorSidebar";
 function Placeholder() {
     return <div className="editor-placeholder">Enter some rich text...</div>;
 }
@@ -75,13 +76,17 @@ export function Editor(): JSX.Element | null {
             document.removeEventListener("click", handleDocumentClick);
         };
     }, []);
+    const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
+    const openSidebar = () => {
+      setIsSidebarOpen(true);
+    };
     return (
         <LexicalComposer initialConfig={editorConfig}>
             <div className="editor-container" ref={contentEditableRef}>
-            {/* {isToolbarVisible && <ToolbarPlugin />} */}
-          <ToolbarPlugin />
-
+            {isToolbarVisible && <ToolbarPlugin openSidebar={openSidebar} />}
+          {/* <ToolbarPlugin openSidebar={openSidebar} /> */}
+          <EditorSidebar isOpen={isSidebarOpen} setIsOpen={setIsSidebarOpen}/>
                 <div className="editor-inner">
                     <RichTextPlugin
                         contentEditable={<ContentEditable className="editor-input" onClick={handleInputClick}/>}

@@ -31,11 +31,15 @@ body {
   .rtl {
     text-align: right;
   }
-  
+  /* CSS to hide the sidebar content */
+.hide {
+  display: none;
+}
+
   .editor-container {
-    margin: 20px auto 20px auto;
+    margin: 0px auto 0px auto;
     overflow: hidden;
-    max-width: 650px;
+    max-width: 770px;
     padding-left: 20px;
     padding-right: 20px;
     color: #000;
@@ -354,7 +358,10 @@ body {
     cursor: pointer;
     vertical-align: middle;
   }
-  
+  .colorplater{
+    display: flex;
+   margin-left: 100px;
+  }
   .toolbar button.toolbar-item:disabled {
     cursor: not-allowed;
   }
@@ -742,3 +749,6 @@ body {
     background-image: url(images/icons/justify.svg);
   } 
   
+  i.color-palette{
+    background-image: url(images/icons/color-palette.png);
+  }

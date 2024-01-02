@@ -42,6 +42,8 @@ import {
   getCodeLanguages
 } from "@lexical/code";
 
+
+import {EditorSidebar} from "@/app/components/EditorSidebar"
 const LowPriority = 1;
 
 const supportedBlockTypes = new Set([
@@ -417,7 +419,7 @@ function BlockOptionsDropdownList({
   );
 }
 
-export default function ToolbarPlugin() {
+export default function ToolbarPlugin( { openSidebar }) {
   const [editor] = useLexicalComposerContext();
   const toolbarRef = useRef(null);
   const [canUndo, setCanUndo] = useState(false);
@@ -538,6 +540,13 @@ export default function ToolbarPlugin() {
     }
   }, [editor, isLink]);
 
+  const handleColorChange = (colorType, color) => {
+    if (colorType === 'background') {
+      setBackgroundColor(color);
+    } else if (colorType === 'text') {
+      setTextColor(color);
+    }
+  };
   return (
     <div className="toolbar" ref={toolbarRef}>
       <button
@@ -599,6 +608,7 @@ export default function ToolbarPlugin() {
         </>
       ) : (
         <>
+
           <button
             onClick={() => {
               editor.dispatchCommand(FORMAT_TEXT_COMMAND, "bold");
@@ -692,6 +702,16 @@ export default function ToolbarPlugin() {
           >
             <i className="format justify-align" />
           </button>{" "}
+<div className="colorplater">
+<button
+    className="toolbar-item spaced"
+    aria-label="Color Picker" 
+    // onClick={openSidebar}
+    >
+    <i className="format color-palette" /> 
+  </button>
+</div>
+
         </>
       )}
     </div>
