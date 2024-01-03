@@ -39,14 +39,16 @@ body {
   .editor-container {
     margin: 0px auto 0px auto;
     overflow: hidden;
-    max-width: 770px;
-    padding-left: 20px;
-    padding-right: 20px;
+    max-width: 729px;
+    /* padding-left: 20px;
+    padding-right: 20px; */
     color: #000;
     position: relative;
     line-height: 20px;
     font-weight: 400;
     text-align: left;
+    border: 1px solid rgb(216, 175, 98);
+    
   }
   
   .editor-inner {
@@ -54,6 +56,7 @@ body {
     position: relative;
     border-bottom-left-radius: 8px;
     border-bottom-right-radius: 8px;
+   
   }
   
   .editor-input {
@@ -339,7 +342,7 @@ body {
   
   .toolbar {
     display: flex;
-    margin-bottom: 1px;
+    margin-bottom: 1px ;
     background: #fff;
     padding: 4px;
     vertical-align: middle;

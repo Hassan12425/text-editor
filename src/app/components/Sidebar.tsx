@@ -26,18 +26,13 @@ const Sidebar: React.FC<SidebarProps> = ({
   handleTextAlignmentChange, 
 }) => {
   const sidebarRef = useRef<HTMLDivElement>(null);
-  const [name, setName] = useState<string>('Hassan khan');
-  const [address, setAddress] = useState<string>('Abbottabad');
-  const [number, setNumber] = useState<string>('03484827891');
-  const [email, setEmail] = useState<string>('Hassankhan12425@gmail.com');
+
  
 
   const handleSidebarInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setInputText(event.target.value);
   };
-  const handleSidebarnameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setName(event.target.value);
-  };
+
 
   const handleFontSizeChange = (newSize: number) => {
     onFontSizeChange(newSize);

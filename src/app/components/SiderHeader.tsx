@@ -37,24 +37,24 @@ const SiderHeader: React.FC<SiderHeaderProps> = ({
       </div>
 
       {/* Text alignment buttons */}
-      <div className="flex justify-center items-center">
-        <div className="w-1/3 p-4" onClick={() => handleTextAlignmentChange('left')}>
+      <div className="flex justify-center items-center border border-double border-gray-300 w-5/6 m-auto rounded-lg mt-2">
+        <div className="w-1/3 p-2.5" onClick={() => handleTextAlignmentChange('left')}>
           <img
-            className="w-1/2 rounded-lg shadow-md"
+            className="w-1/2 rounded-sm "
             src="/images/text-left.svg"
             alt="text left"
           />
         </div>
-        <div className="w-1/3 p-4" onClick={() => handleTextAlignmentChange('center')}>
+        <div className="w-1/3 p-2.5" onClick={() => handleTextAlignmentChange('center')}>
           <img
-            className="w-1/2 rounded-lg shadow-md"
+            className="w-1/2 rounded-sm "
             src="/images/text-center.svg"
             alt="text center"
           />
         </div>
-        <div className="w-1/3 p-4" onClick={() => handleTextAlignmentChange('right')}>
+        <div className="w-1/3 p-2.5" onClick={() => handleTextAlignmentChange('right')}>
           <img
-            className="w-1/2 rounded-lg shadow-md"
+            className="w-1/2 rounded-sm "
             src="/images/text-right.svg"
             alt="text right"
           />

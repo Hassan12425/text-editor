@@ -4,16 +4,30 @@ import React, { useState } from 'react';
 interface ModalProps {
   closeModal: () => void;
   addEditor: () => void;
+  handleImageUpload: (file: File | null) => void;
 }
 
-const Modal: React.FC<ModalProps> = ({ closeModal,addEditor }) => {
+const Modal: React.FC<ModalProps> = ({ closeModal, addEditor, handleImageUpload }) => {
   const [image, setImage] = useState<File | null>(null);
   const [editorAdded, setEditorAdded] = useState<boolean>(false);
+  const [displayImage, setDisplayImage] = useState<string | null>(null);
 
+  const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files && event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setDisplayImage(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+      setImage(file);
+      handleImageUpload(file); 
+    }
+  };
 
 
   return (
-    <div className="modal w-[729px] h-48 border border-dashed border-black m-auto">
+    <div className="modal w-[729px] h-auto border border-dashed border-blue-800 m-auto">
       <div className="modal-content">
         <div className='flex items-center justify-between pt-8 '>
           <h2 className='flex-1 text-center font-semibold'>Add a new Section</h2>
@@ -22,16 +36,17 @@ const Modal: React.FC<ModalProps> = ({ closeModal,addEditor }) => {
         <div className="flex justify-center">
           <div className='m-2 w-24 shadow-lg bg-white p-6 rounded-lg flex flex-col justify-center text-center items-center'>
             <img className='w-6 mb-1' src="/images/texticon.png" alt="" />
-            <button >Text</button>  {/* onClick={addEditor} */}
-           
+            <button onClick={() => { addEditor(); setEditorAdded(true); }}>Text</button>
           </div>
           <div className='m-2 h-auto w-24 shadow-lg bg-white p-6 rounded-lg flex flex-col justify-center text-center items-center'>
             <img className='w-6 mb-1' src="/images/imageicon.png" alt="" />
-            <button>Image</button>
+            <input className='hidden' type="file" id="actual-btn" onChange={handleImageChange} />
+            <label htmlFor="actual-btn" className='cursor-pointer'>Image</label>
           </div>
         </div>
-        {editorAdded && <Editor />} 
+        {editorAdded && <Editor />}
       </div>
+
     </div>
   );
 };
