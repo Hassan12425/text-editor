@@ -18,7 +18,7 @@ const SiderHeader: React.FC<SiderHeaderProps> = ({
   handleSidebarInputChange,
   handleFontSizeChange,
   handleColorChange,
-  handleTextAlignmentChange, // Receive the new prop
+  handleTextAlignmentChange, 
 }) => {
   return (
     <div>

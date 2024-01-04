@@ -66,7 +66,7 @@ const FooterSidebar: React.FC<FooterSidebarProps> = ({
   return (
     <div
       ref={sidebarRef}
-      className={`h-screen w-1/5 fixed top-0 right-0 bg-gray-200 transform z-50 ${
+      className={`h-screen w-1/6 fixed top-0 right-0 bg-gray-200 transform z-50 ${
         isOpen ? 'translate-x-0' : 'translate-x-full'
       } transition-transform duration-300 ease-in-out shadow-lg`}
     >

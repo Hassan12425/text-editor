@@ -64,7 +64,7 @@ const SideFooterContent: React.FC<SideFooterContentProps> = ({
           value={name}
           onChange={(e) => handleInputChange('name', e)}
           disabled={!nameChecked}
-          className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          className="shadow appearance-none border rounded w-11/12 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
         />
       </div>
       <div className="mb-3">
@@ -83,7 +83,7 @@ const SideFooterContent: React.FC<SideFooterContentProps> = ({
           value={address}
           onChange={(e) => handleInputChange('address', e)}
            disabled={!addressChecked}
-          className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          className="shadow appearance-none border rounded w-11/12 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
         />
       </div>
       <div className="mb-3">
@@ -102,7 +102,7 @@ const SideFooterContent: React.FC<SideFooterContentProps> = ({
           value={number}
           onChange={(e) => handleInputChange('number', e)}
            disabled={!numberChecked}
-          className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          className="shadow appearance-none border rounded w-11/12 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
         />
       </div>
       <div className="mb-3">
@@ -121,7 +121,7 @@ const SideFooterContent: React.FC<SideFooterContentProps> = ({
           value={email}
           onChange={(e) => handleInputChange('email', e)}
            disabled={!emailChecked}
-          className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          className="shadow appearance-none border rounded w-11/12 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
         />
       </div>
        <DropDown onBackgroundChange={handleBackgroundChange} backgroundColors={backgroundColors} title='Background' />

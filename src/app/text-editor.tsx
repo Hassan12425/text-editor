@@ -58,6 +58,7 @@ const editorConfig = {
 export function Editor(): JSX.Element | null {
     const [isToolbarVisible, setIsToolbarVisible] = useState(false);
     const contentEditableRef = useRef<HTMLDivElement | null>(null);
+    const [selectedBackgroundColor, setSelectedBackgroundColor] = useState<string>('transparent');
 
     const handleInputClick = () => {
         setIsToolbarVisible(true);
@@ -81,14 +82,22 @@ export function Editor(): JSX.Element | null {
     const openSidebar = () => {
       setIsSidebarOpen(true);
     };
+    
+  const handleBackgroundChange = (selectedColor: string) => {
+   
+    setSelectedBackgroundColor(selectedColor);
+  };
     return (
         <LexicalComposer initialConfig={editorConfig}>
-            <div className="editor-container" ref={contentEditableRef}>
+            <div className="editor-container"  ref={contentEditableRef}>
             {isToolbarVisible && <ToolbarPlugin openSidebar={openSidebar} />}
           {/* <ToolbarPlugin openSidebar={openSidebar} /> */}
-          <EditorSidebar isOpen={isSidebarOpen} setIsOpen={setIsSidebarOpen}/>
-                <div className="editor-inner">
-                    <RichTextPlugin
+          <EditorSidebar
+        isOpen={isSidebarOpen}
+        setIsOpen={setIsSidebarOpen}
+        onBackgroundChange={handleBackgroundChange} />
+                <div className="editor-inner " style={{ backgroundColor: selectedBackgroundColor }}>
+                    <RichTextPlugin 
                         contentEditable={<ContentEditable className="editor-input" onClick={handleInputClick}/>}
                         placeholder={<Placeholder />}
                         ErrorBoundary={LexicalErrorBoundary}

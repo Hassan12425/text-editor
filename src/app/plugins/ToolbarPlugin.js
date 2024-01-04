@@ -706,7 +706,7 @@ export default function ToolbarPlugin( { openSidebar }) {
 <button
     className="toolbar-item spaced"
     aria-label="Color Picker" 
-    // onClick={openSidebar}
+    onClick={openSidebar}
     >
     <i className="format color-palette" /> 
   </button>

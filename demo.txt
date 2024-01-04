@@ -1,200 +1,99 @@
-// Sidebar.tsx
+'use client'
 
-import React from 'react';
-import FontSizeChanger from './FontSizeChanger';
+import React, { useState } from "react";
+import Footer from "./components/Footer";
+import TextField from "./components/TextField";
+import { Editor } from "./text-editor";
+import Modal from "./components/common/Model";
+import EditorSidebar from "./components/EditorSidebar";
 
-interface SidebarProps {
-  inputText: string;
-  setInputText: React.Dispatch<React.SetStateAction<string>>;
-  fontSize: number;
-  onFontSizeChange: (newSize: number) => void;
-  // Additional props for footer text editing
-  setName: React.Dispatch<React.SetStateAction<string>>;
-  setAddress: React.Dispatch<React.SetStateAction<string>>;
-  setNumber: React.Dispatch<React.SetStateAction<string>>;
-  setEmail: React.Dispatch<React.SetStateAction<string>>;
-}
 
-const Sidebar: React.FC<SidebarProps> = ({
-  inputText,
-  setInputText,
-  fontSize,
-  onFontSizeChange,
-  setName,
-  setAddress,
-  setNumber,
-  setEmail,
-}) => {
-  const handleSidebarInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setInputText(event.target.value);
+const Home: React.FC = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [editorCount, setEditorCount] = useState(1);
+  const [uploadedImages, setUploadedImages] = useState<string[]>([]);
+  const [selectedBackgroundColor, setSelectedBackgroundColor] = useState<string>('transparent');
+  const openModal = () => {
+    setIsModalOpen(true);
   };
 
-  const handleFontSizeChange = (newSize: number) => {
-    onFontSizeChange(newSize);
+  const closeModal = () => {
+    setIsModalOpen(false);
   };
 
-  const handleFooterTextChange = (event: React.ChangeEvent<HTMLInputElement>, setter: React.Dispatch<React.SetStateAction<string>>) => {
-    setter(event.target.value);
+  const addEditor = () => {
+    setEditorCount(prevCount => prevCount + 1);
+    closeModal(); 
+  };
+ 
+  const handleImageUpload = (file: File | null) => {
+    // Logic to handle image upload
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setUploadedImages(prevImages => [...prevImages, reader.result as string]); 
+      };
+      reader.readAsDataURL(file);
+    }
+    closeModal(); 
   };
 
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
+  const openSidebar = () => {
+    setIsSidebarOpen(true);
+  };
+
+  const [selectedImageIndex, setSelectedImageIndex] = useState<number | null>(null);
+
+  const handleImageClick = (index: number) => {
+    setSelectedImageIndex(index);
+    openSidebar();
+  };
+
+  const handleBackgroundChange = (selectedColor: string) => {
+    // Update the selectedBackgroundColor state when a color is selected
+    setSelectedBackgroundColor(selectedColor);
+  };
+  
   return (
-    <div className="h-screen w-1/6 bg-gray-200 fixed top-0 right-0 flex flex-col">
-      <div className='mt-2 font-semibold '>Header</div>
-      <div className="pt-6 pl-4 ">
-        <h2 className="mb-2 float-left font-semibold">Store Branding</h2>
-        <input
-          type="text"
-          value={inputText}
-          onChange={handleSidebarInputChange}
-          className="w-100% p-1 float-left border-2 border-gray-300 "
-        />
-      </div>
-      <div className="mt-10 mb-6 pl-4">
-        <FontSizeChanger fontSize={fontSize} onFontSizeChange={handleFontSizeChange} />
-      </div>
-
-      {/* Input fields for footer text editing */}
-      <div className="w-full p-4">
-        <input
-          type="text"
-          value={inputText}
-          onChange={(e) => handleFooterTextChange(e, setName)} 
-          className="w-full mb-4 p-2 border border-gray-300"
-        />
-           <input
-          type="text"
-          value={inputText}
-          onChange={(e) => handleFooterTextChange(e, setAddress)} 
-          className="w-full mb-4 p-2 border border-gray-300"
-        />
-          <input
-          type="text"
-          value={inputText}
-          onChange={(e) => handleFooterTextChange(e, setNumber)} 
-          className="w-full mb-4 p-2 border border-gray-300"
-        />
-          <input
-          type="text"
-          value={inputText}
-          onChange={(e) => handleFooterTextChange(e, setEmail)} 
-          className="w-full mb-4 p-2 border border-gray-300"
-        />
+    <>
+      <div className="App">
+        <TextField />
+        {[...Array(editorCount)].map((_, index) => (
+          <Editor key={index} />
+        ))}
+    
+      {/* Display uploaded images */}
       
-      </div>
-    </div>
-  );
-};
+        {uploadedImages.map((image, index) => (
+          <div  onClick={() => handleImageClick(index)} className="w-[729px] m-auto bg-white border border-double border-blue-500" key={index} style={{ backgroundColor: selectedBackgroundColor }}>
+            <img className="h-72 my-10 w-[450px] mx-auto" src={image} alt={`Uploaded ${index + 1}`} />
+          </div>
+        ))}
+    
 
-export default Sidebar;
+    {isModalOpen && (
+          <Modal closeModal={closeModal} addEditor={addEditor} handleImageUpload={handleImageUpload}/>
+        )}
 
-
-
-
-
-
-import React, { useState } from 'react';
-import Sidebar from './Sidebar';
-
-const Footer: React.FC = () => {
-  const [name, setName] = useState<string>('section1Content1');
-  const [address, setAddress] = useState<string>('section1Content2');
-  const [number, setNumber] = useState<string>('03484827891');
-  const [email, setEmail] = useState<string>('section1Content4');
-  const [fontSize, setFontSize] = useState<number>(16);
-
-  const handleFontSizeChange = (newSize: number) => {
-    setFontSize(newSize);
-  };
-
-  return (
-    <div className="flex items-center justify-center h-screen">
-      <div className="flex-1">
-        <div
-          className={`text-${fontSize}px p-4 w-96 mr-auto h-240 border border-gray-300 flex flex-col items-center justify-center`}
-          contentEditable={false}
-          style={{
-            fontSize: `${fontSize}px`,
-            padding: '15px',
-            width: '600px',
-            height: '150px',
-            border: '1px solid #ccc',
-          }}
-        >
-          <div>{name}</div>
-          <div>{address}</div>
-          <div>{number}</div>
-          <div>{email}</div>
-        </div>
-      </div>
-      <Sidebar
-       fontSize={fontSize}
-       onFontSizeChange={handleFontSizeChange}
-        name={name}
-        setName={setName}
-        address={address}
-        setAddress={setAddress}
-        number={number}
-        setNumber={setNumber}
-        email={email}
-        setEmail={setEmail}
+        <Footer />
        
-      />
-    </div>
+       
+        <button
+          onClick={openModal}
+          className="fixed bottom-5 right-16 bg-blue-500 text-white px-4 py-2 rounded-full"
+        >
+          Add Section
+        </button>
+      </div>
+     
+      <EditorSidebar
+        isOpen={isSidebarOpen}
+        setIsOpen={setIsSidebarOpen}
+        onBackgroundChange={handleBackgroundChange} />
+    </>
   );
 };
 
-export default Footer;
-
-
-
-
-import React from 'react';
-
-interface SelectColorProps {
-  onColorChange: (colorType: string, color: string) => void;
-}
-
-const SelectColor: React.FC<SelectColorProps> = ({ onColorChange }) => {
-  const handleColorSelection = (colorType: string, color: string) => {
-    // Call onColorChange with the selected color and color type
-    onColorChange(colorType, color);
-  };
-
-  const backgroundColors = ['blue', 'red', 'green', 'yellow', 'orange', 'purple', 'pink', 'cyan', 'magenta', 'teal', 'lime', 'olive', 'brown', 'navy', 'maroon', 'black', 'gray', 'silver', 'gold', 'indigo'];
-  const textColors = ['black', 'white', 'gray', 'silver', 'gold', 'red', 'green', 'blue', 'yellow', 'orange', 'purple', 'pink', 'cyan', 'magenta', 'teal', 'lime', 'olive', 'brown', 'navy', 'maroon'];
-
-  return (
-    <div>
-      {/* Background color dropdown */}
-      <select
-        onChange={(e) => handleColorSelection('background', e.target.value)}
-        className="border rounded p-1"
-      >
-        {backgroundColors.map((color, index) => (
-          <option key={index} value={color} style={{ backgroundColor: color }} className="rounded">
-            {color}
-          </option>
-        ))}
-      </select>
-
-      {/* Text color dropdown */}
-      <select
-        onChange={(e) => handleColorSelection('text', e.target.value)}
-        className="border rounded p-1 mt-2"
-      >
-        {textColors.map((color, index) => (
-          <option
-            key={index}
-            value={color}
-            style={{ backgroundColor: color, color: color === 'white' ? 'black' : 'white' }}
-            className="rounded"
-          >
-            {color}
-          </option>
-        ))}
-      </select>
-    </div>
-  );
-};
-
-export default SelectColor;
+export default Home;

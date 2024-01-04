@@ -28,9 +28,9 @@ const Modal: React.FC<ModalProps> = ({ closeModal, addEditor, handleImageUpload 
 
   return (
     <div className="modal w-[729px] h-auto border border-dashed border-blue-800 m-auto">
-      <div className="modal-content">
-        <div className='flex items-center justify-between pt-8 '>
-          <h2 className='flex-1 text-center font-semibold'>Add a new Section</h2>
+      <div className="modal-content p-6">
+        <div className='flex items-center justify-between  '>
+          <h2 className='flex-1 text-center font-semibold ml-6'>Add a new Section</h2>
           <img onClick={closeModal} className='w-3 mr-6' src="/images/close.png" alt="" />
         </div>
         <div className="flex justify-center">
