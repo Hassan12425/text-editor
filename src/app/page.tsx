@@ -9,6 +9,12 @@ import Modal from "./components/common/Model";
 import EditorSidebar from "./components/EditorSidebar";
 import CustomButton from "./components/common/CustomButton";
 
+
+interface Item {
+  type: string;
+  index: number;
+}
+
 const Home: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editorCount, setEditorCount] = useState(1);
@@ -18,6 +24,9 @@ const Home: React.FC = () => {
 
   const [isEditorHovered, setIsEditorHovered] = useState<boolean[]>(Array(editorCount).fill(false));
   const [isImageHovered, setIsImageHovered] = useState<boolean[]>([]);
+
+
+  
 
   const openSidebar = () => {
     setIsSidebarOpen(true);
@@ -61,12 +70,23 @@ const Home: React.FC = () => {
     }
     closeModal();
   };
+  const addNewEditorSection = () => {
+    setEditorCount(prevCount => prevCount + 1);
+    setIsEditorHovered(prevState => [...prevState, false]);// Reset hover state for the new editor
+  }; 
 
   const deleteEditorSection = (indexToDelete: number) => {
     setEditorCount(prevCount => prevCount - 1);
     const updatedEditorHoverState = [...isEditorHovered];
     updatedEditorHoverState.splice(indexToDelete, 1);
     setIsEditorHovered(updatedEditorHoverState);
+  };
+
+  const addNewImageSection = () => {
+    const newImage = uploadedImages[uploadedImages.length - 1]; 
+    setUploadedImages(prevImages => [...prevImages, newImage]);
+    setBackgroundColors(prevColors => [...prevColors, 'transparent']);
+    setIsImageHovered(prevState => [...prevState, false]); // Reset hover state for the new image
   };
 
   const deleteImageSection = (indexToDelete: number) => {
@@ -76,19 +96,7 @@ const Home: React.FC = () => {
     updatedImageHoverState.splice(indexToDelete, 1);
     setIsImageHovered(updatedImageHoverState);
   };
-
-  const addNewEditorSection = () => {
-    setEditorCount(prevCount => prevCount + 1);
-    setIsEditorHovered(prevState => [...prevState, false]);// Reset hover state for the new editor
-  };
-
-  // Function to add a new image section
-  const addNewImageSection = () => {
-    const newImage = uploadedImages[uploadedImages.length - 1]; 
-    setUploadedImages(prevImages => [...prevImages, newImage]);
-    setBackgroundColors(prevColors => [...prevColors, 'transparent']);
-    setIsImageHovered(prevState => [...prevState, false]); // Reset hover state for the new image
-  };
+ 
 
   return (
     <>
